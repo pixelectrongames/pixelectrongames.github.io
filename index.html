@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
+
   <style>
     html {
       scroll-behavior: smooth;
@@ -31,12 +31,16 @@
       box-sizing: border-box;
       z-index: 1000;
       border-bottom: 1px solid #222;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
 
-    .logo {
-      font-size: 20px;
-      font-weight: bold;
-      color: #00ffcc;
+    nav.scrolled {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .logo img {
+      height: 40px;
     }
 
     .nav-links a {
@@ -45,30 +49,23 @@
       color: white;
       font-weight: bold;
       transition: 0.3s;
+      padding-bottom: 5px;
     }
 
     .nav-links a:hover {
       color: #00ffcc;
     }
 
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 10px;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background: #00ffcc;
-      color: black;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
+    .nav-link.active {
+      color: #00ffcc;
+      border-bottom: 2px solid #00ffcc;
     }
 
     /* ===== SECTIONS ===== */
     section {
       padding: 120px 20px;
       text-align: center;
+      scroll-margin-top: 100px;
     }
 
     h1 {
@@ -103,21 +100,33 @@
       background: #222;
     }
 
-    /* ===== CONTACT BUTTONS ===== */
-    .contact-btn {
+    .game-card a {
       display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background: #00ffcc;
-      color: black;
+      margin-top: 10px;
+      color: #00ffcc;
       text-decoration: none;
       font-weight: bold;
-      transition: 0.3s;
+    }
+
+    /* ===== CONTACT BUTTONS ===== */
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 25px;
+      margin: 10px;
+      border-radius: 50px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
     }
 
     .contact-btn:hover {
       background: white;
+      color: black;
     }
 
     footer {
@@ -135,24 +144,24 @@
   <!-- NAVBAR -->
   <nav>
     <div class="logo">
-      <img src="PixElectron PP Logo.png" alt="Logo" height="40">
+      <img src="PixElectron PP Logo.png" alt="Logo">
     </div>
     <div class="nav-links">
-      <a href="#games">Games</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="#games" class="nav-link">Games</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section>
-    <h1>Welcome</h1>
+  <section id="home">
+    <h1>PixElectron Games</h1>
     <p>We create fun and challenging 2D games.</p>
   </section>
 
   <!-- GAMES -->
   <section id="games">
-    <h2>Our Games</h2>
+    <h2>PROJECTS</h2>
 
     <div class="game-card">
       <h3>Dino Eternal</h3>
@@ -162,7 +171,7 @@
 
     <div class="game-card">
       <h3>WinDefense: AntiVirus</h3>
-      <p>A 2D pixel art pc themed game where player protects their files from virus.</p>
+      <p>A 2D pixel art PC themed game where player protects their files from virus.</p>
       <a href="#">Coming Soon to Steam</a>
     </div>
   </section>
@@ -171,26 +180,27 @@
   <section id="about">
     <h2>About Us</h2>
     <p>
-      Pixel Electron Games is an indie game developer focused on creating
+      PixElectron Games is an indie game developer focused on creating
       engaging gameplay experiences with simple pixel art and fun mechanics.
     </p>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact">
-    <h2>Contact Us</h2>
-  
+    <h2>CONTACT US</h2>
+
     <a class="contact-btn" href="mailto:pixelectrongames@email.com">
       <i class="fa-solid fa-envelope"></i> Email
     </a>
-  
+
     <a class="contact-btn" href="https://www.instagram.com/pixelectrongames/" target="_blank">
       <i class="fa-brands fa-instagram"></i> Instagram
     </a>
-  
+
     <a class="contact-btn" href="https://twitter.com/yourusername" target="_blank">
-      <i class="fa-brands fa-x-twitter"></i> Twitter
+      <i class="fa-brands fa-x-twitter"></i> X
     </a>
-  
+
     <a class="contact-btn" href="https://discord.gg/EkWcctR8SE" target="_blank">
       <i class="fa-brands fa-discord"></i> Dino Eternal Discord
     </a>
@@ -199,6 +209,43 @@
   <footer>
     © 2026 PixElectron Games. All rights reserved.
   </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Navbar blur on scroll
+    window.addEventListener("scroll", function() {
+      const nav = document.querySelector("nav");
+      if (window.scrollY > 50) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    });
+
+    // Active nav highlight
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.clientHeight;
+
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
