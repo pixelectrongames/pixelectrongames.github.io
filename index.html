@@ -3,17 +3,56 @@
 <head>
   <title>PixElectron Games</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #0f0f0f;
       color: white;
-      text-align: center;
     }
 
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      box-sizing: border-box;
+      z-index: 1000;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    .nav-links a {
+      margin-left: 30px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00ffcc;
+    }
+
+    /* ===== SECTIONS ===== */
     section {
-      padding: 100px 20px;
+      padding: 120px 20px;
+      text-align: center;
     }
 
     h1 {
@@ -22,11 +61,18 @@
     }
 
     h2 {
-      font-size: 28px;
+      font-size: 32px;
       margin-bottom: 20px;
       color: #00ffcc;
     }
 
+    p {
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+      line-height: 1.6;
+    }
+
+    /* ===== GAME CARDS ===== */
     .game-card {
       background: #1a1a1a;
       padding: 20px;
@@ -41,52 +87,88 @@
       background: #222;
     }
 
-    a {
-      color: #00ffcc;
+    /* ===== CONTACT BUTTONS ===== */
+    .contact-btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background: #00ffcc;
+      color: black;
       text-decoration: none;
       font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .contact-btn:hover {
+      background: white;
     }
 
     footer {
       padding: 30px;
       background: #111;
+      text-align: center;
       font-size: 14px;
       color: #888;
     }
   </style>
 </head>
+
 <body>
 
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">PixElectron Games</div>
+    <div class="nav-links">
+      <a href="#games">Games</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
   <section>
-    <h1>PixElectron Games</h1>
-    <h2>Indie Game Developer</h2>
-    <p>Creating fun and challenging 2D pixel games.</p>
+    <h1>Welcome</h1>
+    <p>We create fun and challenging 2D games.</p>
   </section>
 
-  <section>
-    <h2>My Games</h2>
+  <!-- GAMES -->
+  <section id="games">
+    <h2>Our Games</h2>
 
     <div class="game-card">
-      <h3>Project 1: Dino Eternal</h3>
-      <p>A 2D pixel art platformer Mobile Game where a dinosaur defends its mother from enemies.</p>
-      <a href="#">Coming to Play Store</a>
+      <h3>Dino Eternal</h3>
+      <p>A 2D pixel art platformer where a dinosaur defends its mother from enemies.</p>
     </div>
 
     <div class="game-card">
-      <h3>Project 2: WinDefense</h3>
-      <p>A 2D pixel art pc themed game where the player have to protect files from </p>
-      <a href="#">Coming Soon to Steam</a>
+      <h3>WinDefense: AntiVirus</h3>
+      <p>A 2D pixel art pc themed game where player protects their files from virus.</p>
     </div>
-
   </section>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Email: pixelectrongames@email.com</p>
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>About Us</h2>
+    <p>
+      Pixel Electron Games is an indie game developer focused on creating
+      engaging gameplay experiences with simple pixel art and fun mechanics.
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact Us</h2>
+
+    <a class="contact-btn" href="mailto:pixelectrongames@gmail.com">Email</a>
+    <a class="contact-btn" href="https://www.instagram.com/pixelectrongames/" target="_blank">Instagram</a>
+    <a class="contact-btn" href="https://twitter.com/yourusername" target="_blank">X</a>
+    <a class="contact-btn" href="https://discord.gg/EkWcctR8SE" target="_blank">Dino Eternal Discord</a>
+
   </section>
 
   <footer>
-    © 2026 PixElectron Games
+    © 2026 Pixel Electron Games. All rights reserved.
   </footer>
 
 </body>
