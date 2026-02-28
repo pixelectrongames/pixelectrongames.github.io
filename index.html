@@ -32,34 +32,33 @@
       z-index: 1000;
       transition: background 0.3s ease;
     }
-
+    
     nav.scrolled {
       background: rgba(0, 0, 0, 0.5);
     }
-
-    .logo img {
-      height: 40px;
-    }
-
+    
+    /* DEFAULT TEXT (paling atas - hero hitam) */
     .nav-links a {
       margin-left: 30px;
       text-decoration: none;
-      color: black;
+      color: rgba(255,255,255,0.6); /* redup */
       font-weight: bold;
       transition: 0.3s;
-      padding-bottom: 5px;
     }
-
-    nav.scrolled .nav-links a {
+    
+    /* ACTIVE saat di hero */
+    .nav-link.active {
       color: white;
     }
-
-    .nav-link.active {
-      border-bottom: 2px solid black;
+    
+    /* SAAT SCROLL KE SECTION PUTIH */
+    nav.scrolled .nav-links a {
+      color: rgba(255,255,255,0.6);
     }
-
+    
+    /* ACTIVE saat scroll */
     nav.scrolled .nav-link.active {
-      border-bottom: 2px solid white;
+      color: white;
     }
 
     /* ===== SECTIONS ===== */
@@ -178,7 +177,7 @@
 
   <!-- GAMES -->
   <section id="games">
-    <h2>PROJECTS</h2>
+    <h2>GAMES</h2>
 
     <div class="game-card">
       <!-- SCREENSHOT DINO -->
@@ -198,7 +197,7 @@
 
   <!-- ABOUT -->
   <section id="about">
-    <h2>About Us</h2>
+    <h2>ABOUT</h2>
     <p>
       PixElectron Games is an indie game developer focused on creating
       engaging gameplay experiences with simple pixel art and fun mechanics.
@@ -207,7 +206,7 @@
 
   <!-- CONTACT -->
   <section id="contact">
-    <h2>CONTACT US</h2>
+    <h2>CONTACT</h2>
 
     <a class="contact-btn" href="mailto:pixelectrongames@email.com">
       <i class="fa-solid fa-envelope"></i> Email
