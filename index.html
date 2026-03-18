@@ -285,8 +285,8 @@
 <footer>
     <div class="footer-content">
         <div class="footer-links">
-            <a href="?op=terms" onclick="openModal('tosModal'); return false;">Terms of Services</a>
-            <a href="?op=privacy" onclick="openModal('privacyModal'); return false;">Privacy Policy</a>
+            <a href="?op=terms" onclick="openModal('tosModal'); updateURL('terms'); return false;">Terms of Services</a>
+            <a href="?op=privacy" onclick="openModal('privacyModal'); updateURL('privacy'); return false;">Privacy Policy</a>
         </div>
         <p class="copyright">© 2026 PixElectron Games. All rights reserved.</p>
     </div>
@@ -476,6 +476,12 @@
         document.body.style.overflow = "auto";
 
         window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    function updateURL(type) {
+    const newUrl = `${window.location.pathname}?op=${type}`;
+    window.history.pushState({}, '', newUrl);
+
     }
 
     window.onclick = function(event) {
