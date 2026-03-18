@@ -479,9 +479,8 @@
     }
 
     function updateURL(type) {
-    const newUrl = `${window.location.pathname}?op=${type}`;
-    window.history.pushState({}, '', newUrl);
-
+        const newUrl = `?op=${type}`;
+        window.history.pushState({}, '', newUrl);
     }
 
     window.onclick = function(event) {
