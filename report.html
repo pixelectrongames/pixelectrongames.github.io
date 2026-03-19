@@ -13,6 +13,7 @@
     --bg-color: #ffffff;
     --header-bg: #000000;
     --text-main: #333;
+    --link-color: #0066cc;
     --container-width: 80%;
     --max-width: 800px;
 }
@@ -79,16 +80,41 @@ button {
     padding:14px;
     font-weight:600;
     cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover {
+    background:#0066cc;
 }
 
 .preview {
     display:flex;
     gap:10px;
+    flex-wrap:wrap;
+}
+
+.preview div {
+    position:relative;
 }
 
 .preview img {
     width:80px;
     border-radius:4px;
+}
+
+.remove-btn {
+    position:absolute;
+    top:0;
+    right:5px;
+    background:#000;
+    color:#fff;
+    font-size:12px;
+    padding:2px 6px;
+    cursor:pointer;
+}
+
+small {
+    color:#666;
 }
 
 footer {
@@ -128,11 +154,12 @@ footer {
     <option value="Dino Eternal">Dino Eternal</option>
 </select>
 
-<input type="text" id="playerID" placeholder="Player ID (optional)">
+<input type="text" id="playerID" placeholder="Player ID (max 8 digits)" maxlength="8" inputmode="numeric">
 
 <textarea id="description" placeholder="Describe the bug..." required></textarea>
 
 <input type="file" id="images" multiple accept="image/*">
+<small>Max 3 images</small>
 
 <div class="preview" id="preview"></div>
 
@@ -152,23 +179,46 @@ const webhook = "https://discord.com/api/webhooks/1484077991947665489/YbfXMLDPPM
 
 const input = document.getElementById("images");
 const preview = document.getElementById("preview");
-
 let files = [];
 
-input.addEventListener("change", () => {
-    preview.innerHTML = "";
-    files = Array.from(input.files).slice(0,3);
+document.getElementById("playerID").addEventListener("input", function() {
+    this.value = this.value.replace(/[^0-9]/g, "").slice(0,8);
+});
 
-    files.forEach(file => {
+input.addEventListener("change", () => {
+    files = Array.from(input.files).slice(0,3);
+    renderPreview();
+});
+
+function renderPreview() {
+    preview.innerHTML = "";
+
+    files.forEach((file, index) => {
         const reader = new FileReader();
+
         reader.onload = e => {
+            const wrapper = document.createElement("div");
+
             const img = document.createElement("img");
             img.src = e.target.result;
-            preview.appendChild(img);
+
+            const removeBtn = document.createElement("div");
+            removeBtn.className = "remove-btn";
+            removeBtn.innerHTML = "✕";
+
+            removeBtn.onclick = () => {
+                files.splice(index, 1);
+                renderPreview();
+            };
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            preview.appendChild(wrapper);
         };
+
         reader.readAsDataURL(file);
     });
-});
+}
 
 document.getElementById("bugForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -177,7 +227,7 @@ document.getElementById("bugForm").addEventListener("submit", async (e) => {
     const player = document.getElementById("playerID").value || "Unknown";
     const desc = document.getElementById("description").value;
 
-    let content = `🐛 **BUG REPORT**\nGame: ${game}\nPlayer: ${player}\n\n${desc}`;
+    let content = `Game: ${game}\nPlayer: ${player}\n\n${desc}`;
 
     const formData = new FormData();
     formData.append("content", content);
@@ -194,6 +244,7 @@ document.getElementById("bugForm").addEventListener("submit", async (e) => {
     alert("Bug report sent!");
     document.getElementById("bugForm").reset();
     preview.innerHTML = "";
+    files = [];
 });
 </script>
 
