@@ -183,18 +183,16 @@ footer {
 </footer>
 
 <script>
-const webhook = "WEBHOOK_URL"; // GANTI
+const webhook = "WEBHOOK_URL";
 
 const input = document.getElementById("images");
 const preview = document.getElementById("preview");
 let files = [];
 
-// 🔢 Player ID hanya angka max 8
 document.getElementById("playerID").addEventListener("input", function() {
     this.value = this.value.replace(/[^0-9]/g, "").slice(0,8);
 });
 
-// 📝 Counter deskripsi
 const desc = document.getElementById("description");
 const counter = document.getElementById("counter");
 
@@ -202,7 +200,6 @@ desc.addEventListener("input", () => {
     counter.textContent = desc.value.length + " / 300";
 });
 
-// 📸 Upload gambar
 input.addEventListener("change", () => {
     files = Array.from(input.files).slice(0,3);
     renderPreview();
@@ -238,7 +235,6 @@ function renderPreview() {
     });
 }
 
-// 🚀 Submit
 document.getElementById("bugForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -246,7 +242,7 @@ document.getElementById("bugForm").addEventListener("submit", async (e) => {
     const player = document.getElementById("playerID").value || "Unknown";
     const description = desc.value;
 
-    let content = `🐛 **BUG REPORT**\nGame: ${game}\nPlayer: ${player}\n\n${description}`;
+    let content = `Game: ${game}\nPlayer: ${player}\n\n${description}`;
 
     const formData = new FormData();
     formData.append("content", content);
