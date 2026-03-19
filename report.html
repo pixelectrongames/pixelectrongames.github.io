@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PixElectron Games | Bug Report</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg-color: #ffffff;
+    --header-bg: #000000;
+    --text-main: #333;
+    --container-width: 80%;
+    --max-width: 800px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family:'Inter', sans-serif;
+    background:var(--bg-color);
+    color:var(--text-main);
+}
+
+header {
+    background:#000;
+    color:#fff;
+    padding:60px 0;
+}
+
+.header-content {
+    width:var(--container-width);
+    max-width:var(--max-width);
+    margin:auto;
+}
+
+.logo-img {
+    max-width:250px;
+    margin-bottom:10px;
+}
+
+.container {
+    width:var(--container-width);
+    max-width:var(--max-width);
+    margin:60px auto;
+}
+
+h2 {
+    font-weight:800;
+    margin-bottom:20px;
+    text-transform:uppercase;
+}
+
+form {
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+input, select, textarea {
+    padding:12px;
+    font-size:14px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+textarea {
+    resize:vertical;
+    min-height:120px;
+}
+
+button {
+    background:#000;
+    color:#fff;
+    border:none;
+    padding:14px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.preview {
+    display:flex;
+    gap:10px;
+}
+
+.preview img {
+    width:80px;
+    border-radius:4px;
+}
+
+footer {
+    border-top:1px solid #eee;
+    padding:40px 0;
+}
+
+.footer-content {
+    width:var(--container-width);
+    max-width:var(--max-width);
+    margin:auto;
+}
+
+.copyright {
+    font-size:0.85rem;
+    color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header-content">
+    <img src="PixElectronLogo.png" class="logo-img">
+    <p>Bug Report System</p>
+</div>
+</header>
+
+<div class="container">
+<h2>Report a Bug</h2>
+
+<form id="bugForm">
+
+<select id="game" required>
+    <option value="">Select Game</option>
+    <option value="Dino Eternal">Dino Eternal</option>
+</select>
+
+<input type="text" id="playerID" placeholder="Player ID (optional)">
+
+<textarea id="description" placeholder="Describe the bug..." required></textarea>
+
+<input type="file" id="images" multiple accept="image/*">
+
+<div class="preview" id="preview"></div>
+
+<button type="submit">Submit Report</button>
+
+</form>
+</div>
+
+<footer>
+<div class="footer-content">
+    <p class="copyright">© 2026 PixElectron Games. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+const webhook = "https://discord.com/api/webhooks/1484077991947665489/YbfXMLDPPM-8NP_R8wZeH65oTjJNnkEFpcuo4E7SqtF2qXpSr5mx_E0wojHghS-Ad5Ky"; // GANTI INI
+
+const input = document.getElementById("images");
+const preview = document.getElementById("preview");
+
+let files = [];
+
+input.addEventListener("change", () => {
+    preview.innerHTML = "";
+    files = Array.from(input.files).slice(0,3);
+
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
+});
+
+document.getElementById("bugForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const game = document.getElementById("game").value;
+    const player = document.getElementById("playerID").value || "Unknown";
+    const desc = document.getElementById("description").value;
+
+    let content = `🐛 **BUG REPORT**\nGame: ${game}\nPlayer: ${player}\n\n${desc}`;
+
+    const formData = new FormData();
+    formData.append("content", content);
+
+    files.forEach((file, i) => {
+        formData.append(`file${i}`, file);
+    });
+
+    await fetch(webhook, {
+        method: "POST",
+        body: formData
+    });
+
+    alert("Bug report sent!");
+    document.getElementById("bugForm").reset();
+    preview.innerHTML = "";
+});
+</script>
+
+</body>
+</html>
