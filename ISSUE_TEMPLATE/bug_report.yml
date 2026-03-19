@@ -1,9 +1,0 @@
-name: Bug Report
-description: Report a bug
-title: "[BUG]: "
-body:
-  - type: input
-    id: description
-    attributes:
-      label: Bug Description
-      placeholder: Describe the bug
