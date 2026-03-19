@@ -115,6 +115,13 @@ button:hover {
 
 small {
     color:#666;
+    font-size:12px;
+}
+
+.counter {
+    text-align:right;
+    font-size:12px;
+    color:#666;
 }
 
 footer {
@@ -154,9 +161,10 @@ footer {
     <option value="Dino Eternal">Dino Eternal</option>
 </select>
 
-<input type="text" id="playerID" placeholder="Player ID (max 8 digits)" maxlength="8" inputmode="numeric">
+<input type="text" id="playerID" placeholder="Player ID (Optional, max 8 digits)" maxlength="8" inputmode="numeric">
 
-<textarea id="description" placeholder="Describe the bug..." required></textarea>
+<textarea id="description" placeholder="Describe the bug..." maxlength="300" required></textarea>
+<div class="counter" id="counter">0 / 300</div>
 
 <input type="file" id="images" multiple accept="image/*">
 <small>Max 3 images</small>
@@ -175,16 +183,26 @@ footer {
 </footer>
 
 <script>
-const webhook = "https://discord.com/api/webhooks/1484077991947665489/YbfXMLDPPM-8NP_R8wZeH65oTjJNnkEFpcuo4E7SqtF2qXpSr5mx_E0wojHghS-Ad5Ky"; // GANTI INI
+const webhook = "WEBHOOK_URL"; // GANTI
 
 const input = document.getElementById("images");
 const preview = document.getElementById("preview");
 let files = [];
 
+// 🔢 Player ID hanya angka max 8
 document.getElementById("playerID").addEventListener("input", function() {
     this.value = this.value.replace(/[^0-9]/g, "").slice(0,8);
 });
 
+// 📝 Counter deskripsi
+const desc = document.getElementById("description");
+const counter = document.getElementById("counter");
+
+desc.addEventListener("input", () => {
+    counter.textContent = desc.value.length + " / 300";
+});
+
+// 📸 Upload gambar
 input.addEventListener("change", () => {
     files = Array.from(input.files).slice(0,3);
     renderPreview();
@@ -220,14 +238,15 @@ function renderPreview() {
     });
 }
 
+// 🚀 Submit
 document.getElementById("bugForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const game = document.getElementById("game").value;
     const player = document.getElementById("playerID").value || "Unknown";
-    const desc = document.getElementById("description").value;
+    const description = desc.value;
 
-    let content = `Game: ${game}\nPlayer: ${player}\n\n${desc}`;
+    let content = `🐛 **BUG REPORT**\nGame: ${game}\nPlayer: ${player}\n\n${description}`;
 
     const formData = new FormData();
     formData.append("content", content);
@@ -245,6 +264,7 @@ document.getElementById("bugForm").addEventListener("submit", async (e) => {
     document.getElementById("bugForm").reset();
     preview.innerHTML = "";
     files = [];
+    counter.textContent = "0 / 300";
 });
 </script>
 
