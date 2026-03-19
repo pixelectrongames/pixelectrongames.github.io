@@ -4,120 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dino Eternal | Delete Account</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg-color: #000000;
-    --header-bg: #ffffff;
-    --text-main: #ffffff;
-    --button-bg: #ffffff;
-    --button-text: #000000;
-    --container-width: 80%;
-    --max-width: 800px;
+    --bg:#000;
+    --text:#fff;
+    --card:#111;
 }
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-    font-family:'Inter', sans-serif;
-    background:var(--bg-color);
-    color:var(--text-main);
-}
-
-header {
-    background:#fff;
-    color:#000;
-    padding:60px 0;
-    text-align:center;
-}
-
-.logo-img {
-    max-width:200px;
-    margin-bottom:10px;
-}
-
-.container {
-    width:var(--container-width);
-    max-width:var(--max-width);
-    margin:60px auto;
-    text-align:center;
-}
-
-h2 {
-    font-weight:800;
-    margin-bottom:20px;
-}
-
-p {
-    margin-bottom:30px;
-    color:#ccc;
-}
-
-button {
-    background:var(--button-bg);
-    color:var(--button-text);
-    border:none;
-    padding:14px 24px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.2s;
-    margin:10px;
-}
-
-button:hover {
-    opacity:0.8;
-}
-
-.hidden {
-    display:none;
-}
-
-footer {
-    border-top:1px solid #333;
-    padding:40px 0;
-    text-align:center;
-}
-
-small {
-    color:#888;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);text-align:center}
+header{padding:60px 20px}
+.logo{max-width:200px;margin-bottom:10px}
+.container{max-width:600px;margin:auto;padding:20px}
+button{padding:14px 20px;border:none;font-weight:600;cursor:pointer;margin:10px}
+#loginBtn{background:#fff;color:#000}
+#deleteBtn{background:red;color:#fff}
+.hidden{display:none}
+small{color:#aaa}
 </style>
 </head>
 
 <body>
 
 <header>
-    <img src="your-logo.png" class="logo-img">
-    <h1>Dino Eternal</h1>
+<img src="your-logo.png" class="logo">
+<h1>Dino Eternal</h1>
 </header>
 
 <div class="container">
-    <h2>Delete Your Account</h2>
-    <p>This will permanently delete your Player ID and all game progress.</p>
+<h2>Delete Account</h2>
+<p>This will permanently delete your data.</p>
 
-    <button id="loginBtn">Login with Google Play</button>
-    <br>
-    <button id="deleteBtn" class="hidden">Delete My Account</button>
+<button id="loginBtn">Login with Google</button>
+<button id="deleteBtn" class="hidden">Delete My Account</button>
+
+<br><br>
+<small>Your PlayerID will be removed from database.</small>
 </div>
-
-<footer>
-    <small>© 2026 Dino Eternal. All rights reserved.</small>
-</footer>
 
 <script type="module">
 
-// Firebase config
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, get, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC4k1p-l3q_oM5ofVhbWiUFKyoqd-yGEiQ",
-    authDomain: "dino-eternal-firebase.firebaseapp.com",
-    databaseURL: "https://dino-eternal-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "dino-eternal-firebase",
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://dino-eternal-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "YOUR_PROJECT",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -127,33 +63,52 @@ const db = getDatabase(app);
 const loginBtn = document.getElementById("loginBtn");
 const deleteBtn = document.getElementById("deleteBtn");
 
-let userUID = null;
+let googleUID = null;
+let playerID = null;
 
 loginBtn.onclick = async () => {
     const provider = new GoogleAuthProvider();
 
     try {
         const result = await signInWithPopup(auth, provider);
-        userUID = result.user.uid;
+        googleUID = result.user.uid;
 
-        alert("Login success");
+        // 🔍 Cari PlayerID dari googleindex
+        const snapshot = await get(ref(db, "googleindex/" + googleUID));
+
+        if (!snapshot.exists()) {
+            alert("Account not found in database");
+            return;
+        }
+
+        playerID = snapshot.val();
+
+        alert("Login success. PlayerID: " + playerID);
         deleteBtn.classList.remove("hidden");
+
     } catch (err) {
         alert("Login failed");
     }
 };
 
+
 deleteBtn.onclick = async () => {
-    if (!userUID) return;
+    if (!googleUID || !playerID) return;
 
     const confirmDelete = confirm("Are you sure? This cannot be undone.");
     if (!confirmDelete) return;
 
     try {
-        await remove(ref(db, "players/" + userUID));
+        // 🔥 Hapus data player
+        await remove(ref(db, "players/" + playerID));
+
+        // 🔥 Hapus index
+        await remove(ref(db, "googleindex/" + googleUID));
+
         alert("Account deleted successfully");
+
     } catch (err) {
-        alert("Failed to delete account");
+        alert("Delete failed");
     }
 };
 
