@@ -287,6 +287,7 @@
         <div class="footer-links">
             <a href="?op=terms" onclick="openModal('tosModal'); updateURL('terms'); return false;">Terms of Services</a>
             <a href="?op=privacy" onclick="openModal('privacyModal'); updateURL('privacy'); return false;">Privacy Policy</a>
+            <a href="?op=deletion" onclick="openModal('deletionModal'); updateURL('deletion'); return false;">Account Deletion</a>
         </div>
         <p class="copyright">© 2026 PixElectron Games. All rights reserved.</p>
     </div>
@@ -473,6 +474,36 @@
     </div>
 </div>
 
+<div id="deletionModal" class="modal">
+    <div class="modal-content">
+        <h3>HOW TO DELETE AN IN-GAME ACCOUNT</h3>
+
+        <p><strong>Deleted account cannot be restored, so please be careful if you're not very sure.</strong></p>
+
+        <h4>Dino Eternal</h4>
+
+        <h4>Step 1</h4>
+        <p>First open your game, in the main menu, you will see the profile button at the top left. Make sure you have an internet connection while doing this.</p>
+        <img src="DinoEternalDeletion1.png" style="width:100%; margin-bottom:15px;">
+
+        <h4>Step 2</h4>
+        <p>After you open profile settings, you will see "Delete my data" button.</p>
+        <img src="DinoEternalDeletion2.png" style="width:100%; margin-bottom:15px;">
+
+        <h4>Step 3</h4>
+        <p>After you tap on the button, wait for confirmation. If you see confirmation button, tap it to permanently delete your in-game account and data.</p>
+
+        <p>Once your account is deleted, your progress will remain only on your current device. Uninstalling the game will permanently erase all data.</p>
+        <img src="DinoEternalDeletion3.png" style="width:100%; margin-bottom:15px;">
+
+        <h4>Need Help?</h4>
+        <p>If you would like us to assist with deleting any data associated with your gameplay (where applicable), please contact us:</p>
+        <p><strong>Email: pixelectrongames@gmail.com</strong></p>
+
+        <button class="close-btn" onclick="closeModal('deletionModal')">CLOSE</button>
+    </div>
+</div>
+
 <script>
     function toggleDetails(id) {
         const details = document.getElementById(id);
@@ -512,6 +543,10 @@
 
         if (op === "privacy") {
             openModal("privacyModal");
+        }
+
+        if (op === "deletion") {
+            openModal("deletionModal");
         }
     }
 
