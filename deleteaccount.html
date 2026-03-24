@@ -3,115 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dino Eternal | Delete Account</title>
+<title>PixElectron Games | Delete Account</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg:#000;
-    --text:#fff;
-    --card:#111;
+    --bg-color: #ffffff;
+    --header-bg: #000000;
+    --text-main: #333;
+    --container-width: 80%;
+    --max-width: 800px;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);text-align:center}
-header{padding:60px 20px}
-.logo{max-width:200px;margin-bottom:10px}
-.container{max-width:600px;margin:auto;padding:20px}
-button{padding:14px 20px;border:none;font-weight:600;cursor:pointer;margin:10px}
-#loginBtn{background:#fff;color:#000}
-#deleteBtn{background:red;color:#fff}
-.hidden{display:none}
-small{color:#aaa}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family:'Inter', sans-serif;
+    background:var(--bg-color);
+    color:var(--text-main);
+}
+
+header {
+    background:#000;
+    color:#fff;
+    padding:60px 0;
+}
+
+.header-content {
+    width:var(--container-width);
+    max-width:var(--max-width);
+    margin:auto;
+}
+
+.logo-img {
+    max-width:250px;
+    margin-bottom:10px;
+}
+
+.container {
+    width:var(--container-width);
+    max-width:var(--max-width);
+    margin:60px auto;
+}
+
+h2 {
+    font-weight:800;
+    margin-bottom:20px;
+    text-transform:uppercase;
+}
+
+.game-card {
+    border:1px solid #ccc;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.game-info {
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.game-info img {
+    width:60px;
+    border-radius:10px;
+}
+
+button {
+    background:#000;
+    color:#fff;
+    border:none;
+    padding:12px 18px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover { background:#0066cc; }
+
+.section {
+    margin-top:80px;
+}
+
+.google-btn {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+}
+
+.google-btn img {
+    width:20px;
+}
+
+.link {
+    color:#0066cc;
+    cursor:pointer;
+    text-decoration:underline;
+}
+
+footer {
+    border-top:1px solid #eee;
+    padding:40px 0;
+    margin-top:60px;
+}
+
+.footer-content {
+    width:var(--container-width);
+    max-width:var(--max-width);
+    margin:auto;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<img src="your-logo.png" class="logo">
-<h1>Dino Eternal</h1>
+<div class="header-content">
+    <img src="PixElectronLogo.png" class="logo-img">
+    <p>Delete your account</p>
+</div>
 </header>
 
 <div class="container">
-<h2>Delete Account</h2>
-<p>This will permanently delete your data.</p>
-
-<button id="loginBtn">Login with Google</button>
-<button id="deleteBtn" class="hidden">Delete My Account</button>
+<h2>Delete your account</h2>
+<p>By deleting your account, we permanently erase your game progress and all associated information.</p>
 
 <br><br>
-<small>Your PlayerID will be removed from database.</small>
+<p><strong>Please choose the game you wish to delete your account.</strong></p>
+
+<div class="game-card">
+    <div class="game-info">
+        <img src="game-icon.png">
+        <div>Dino Eternal</div>
+    </div>
+    <button onclick="selectGame('Dino Eternal')">Delete Account</button>
 </div>
 
-<script type="module">
+<div id="step2" class="section" style="display:none;">
+    <div class="game-info">
+        <img src="game-icon.png">
+        <div id="gameTitle"></div>
+    </div>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, get, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    <h3 id="deleteTitle"></h3>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyC4k1p-l3q_oM5ofVhbWiUFKyoqd-yGEiQ",
-  authDomain: "dino-eternal-firebase.firebaseapp.com",
-  databaseURL: "https://dino-eternal-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "dino-eternal-firebase",
-};
+    <p>Your account linked with the profile and all associated data will be deleted. Any local progress stored on your device will not be deleted, only data stored remotely.</p>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
+    <br>
 
-const loginBtn = document.getElementById("loginBtn");
-const deleteBtn = document.getElementById("deleteBtn");
+    <button class="google-btn" onclick="signIn()">
+        <img src="https://developers.google.com/identity/images/g-logo.png">
+        SIGN IN WITH GOOGLE SERVICES
+    </button>
+</div>
 
-let googleUID = null;
-let playerID = null;
+<div id="step3" class="section" style="display:none;">
+    <div class="game-info">
+        <img src="game-icon.png">
+        <div id="confirmGame"></div>
+    </div>
 
-loginBtn.onclick = async () => {
-    const provider = new GoogleAuthProvider();
+    <h3 id="confirmText"></h3>
 
-    try {
-        const result = await signInWithPopup(auth, provider);
-        googleUID = result.user.uid;
+    <button onclick="confirmDelete()">YES, PLEASE DELETE MY ACCOUNT</button>
 
-        // 🔍 Cari PlayerID dari googleindex
-        const snapshot = await get(ref(db, "googleindex/" + googleUID));
+    <br><br>
 
-        if (!snapshot.exists()) {
-            alert("Account not found in database");
-            return;
-        }
+    <p>Want to cancel the account deletion?</p>
+    <div class="link" onclick="cancel()">Sign out and cancel</div>
+</div>
 
-        playerID = snapshot.val();
+</div>
 
-        alert("Login success. PlayerID: " + playerID);
-        deleteBtn.classList.remove("hidden");
+<footer>
+<div class="footer-content">
+    <p>© 2026 PixElectron Games. All rights reserved.</p>
+</div>
+</footer>
 
-    } catch (err) {
-        alert("Login failed");
-    }
-};
+<script>
+let selectedGame = "";
 
+function selectGame(game) {
+    selectedGame = game;
+    document.getElementById("step2").style.display = "block";
+    document.getElementById("gameTitle").innerText = game;
+    document.getElementById("deleteTitle").innerText = "Delete my " + game + " account";
 
-deleteBtn.onclick = async () => {
-    if (!googleUID || !playerID) return;
+    document.getElementById("step2").scrollIntoView({behavior:"smooth"});
+}
 
-    const confirmDelete = confirm("Are you sure? This cannot be undone.");
-    if (!confirmDelete) return;
+function signIn() {
+    // TODO: Integrate Google Play Games login
+    document.getElementById("step3").style.display = "block";
+    document.getElementById("confirmGame").innerText = selectedGame;
+    document.getElementById("confirmText").innerText = "Are you sure you want to delete your " + selectedGame + " account?";
 
-    try {
-        // 🔥 Hapus data player
-        await remove(ref(db, "players/" + playerID));
+    document.getElementById("step3").scrollIntoView({behavior:"smooth"});
+}
 
-        // 🔥 Hapus index
-        await remove(ref(db, "googleindex/" + googleUID));
+fetch("https://AIzaSyDF8VYKvQ2DTawK107CogzoIhRBVnC7V3k/deleteAccount", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        idToken: userToken
+    })
+})
 
-        alert("Account deleted successfully");
-
-    } catch (err) {
-        alert("Delete failed");
-    }
-};
-
+function cancel() {
+    location.reload();
+}
 </script>
 
 </body>
