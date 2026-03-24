@@ -1,224 +1,134 @@
+<!-- ================= INDEX PAGE ================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PixElectron Games | Delete Account</title>
+<title>Delete Account</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
 <style>
-:root {
-    --bg-color: #ffffff;
-    --header-bg: #000000;
-    --text-main: #333;
-    --container-width: 80%;
-    --max-width: 800px;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-    font-family:'Inter', sans-serif;
-    background:var(--bg-color);
-    color:var(--text-main);
-}
-
-header {
-    background:#000;
-    color:#fff;
-    padding:60px 0;
-}
-
-.header-content {
-    width:var(--container-width);
-    max-width:var(--max-width);
-    margin:auto;
-}
-
-.logo-img {
-    max-width:250px;
-    margin-bottom:10px;
-}
-
-.container {
-    width:var(--container-width);
-    max-width:var(--max-width);
-    margin:60px auto;
-}
-
-h2 {
-    font-weight:800;
-    margin-bottom:20px;
-    text-transform:uppercase;
-}
-
-.game-card {
-    border:1px solid #ccc;
-    padding:20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:20px;
-}
-
-.game-info {
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.game-info img {
-    width:60px;
-    border-radius:10px;
-}
-
-button {
-    background:#000;
-    color:#fff;
-    border:none;
-    padding:12px 18px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-button:hover { background:#0066cc; }
-
-.section {
-    margin-top:80px;
-}
-
-.google-btn {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    justify-content:center;
-}
-
-.google-btn img {
-    width:20px;
-}
-
-.link {
-    color:#0066cc;
-    cursor:pointer;
-    text-decoration:underline;
-}
-
-footer {
-    border-top:1px solid #eee;
-    padding:40px 0;
-    margin-top:60px;
-}
-
-.footer-content {
-    width:var(--container-width);
-    max-width:var(--max-width);
-    margin:auto;
-}
+body {font-family:Inter;background:#0b2a4a;color:#fff;margin:0;}
+.container {max-width:900px;margin:auto;padding:60px 20px;text-align:center;}
+.game-list {display:flex;gap:20px;justify-content:center;margin-top:40px;}
+.card {background:#fff;color:#000;padding:20px;border-radius:20px;width:220px;}
+.card img {width:100%;}
+button {background:#f4a000;border:none;padding:12px;width:100%;margin-top:10px;font-weight:600;cursor:pointer;}
 </style>
 </head>
-
 <body>
-
-<header>
-<div class="header-content">
-    <img src="PixElectronLogo.png" class="logo-img">
-    <p>Delete your account</p>
-</div>
-</header>
-
 <div class="container">
-<h2>Delete your account</h2>
+<h1>Delete your account</h1>
 <p>By deleting your account, we permanently erase your game progress and all associated information.</p>
 
-<br><br>
-<p><strong>Please choose the game you wish to delete your account.</strong></p>
-
-<div class="game-card">
-    <div class="game-info">
-        <img src="game-icon.png">
-        <div>Dino Eternal</div>
-    </div>
-    <button onclick="selectGame('Dino Eternal')">Delete Account</button>
+<div class="game-list">
+<div class="card">
+<img src="game-icon.png">
+<button onclick="go('login.html?game=Dino Eternal')">DELETE ACCOUNT</button>
 </div>
-
-<div id="step2" class="section" style="display:none;">
-    <div class="game-info">
-        <img src="game-icon.png">
-        <div id="gameTitle"></div>
-    </div>
-
-    <h3 id="deleteTitle"></h3>
-
-    <p>Your account linked with the profile and all associated data will be deleted. Any local progress stored on your device will not be deleted, only data stored remotely.</p>
-
-    <br>
-
-    <button class="google-btn" onclick="signIn()">
-        <img src="https://developers.google.com/identity/images/g-logo.png">
-        SIGN IN WITH GOOGLE SERVICES
-    </button>
 </div>
-
-<div id="step3" class="section" style="display:none;">
-    <div class="game-info">
-        <img src="game-icon.png">
-        <div id="confirmGame"></div>
-    </div>
-
-    <h3 id="confirmText"></h3>
-
-    <button onclick="confirmDelete()">YES, PLEASE DELETE MY ACCOUNT</button>
-
-    <br><br>
-
-    <p>Want to cancel the account deletion?</p>
-    <div class="link" onclick="cancel()">Sign out and cancel</div>
 </div>
+</body>
+</html>
 
-</div>
 
-<footer>
-<div class="footer-content">
-    <p>© 2026 PixElectron Games. All rights reserved.</p>
-</div>
-</footer>
+<!-- ================= LOGIN PAGE ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+body {font-family:Inter;background:#0b2a4a;color:#fff;text-align:center;padding:60px;}
+button {background:#f4a000;border:none;padding:15px 25px;font-weight:600;cursor:pointer;}
+</style>
+</head>
+<body>
+<h2 id="title"></h2>
+<p>Your account and all associated data will be deleted.</p>
+
+<button onclick="login()">SIGN IN WITH GOOGLE SERVICES</button>
 
 <script>
-let selectedGame = "";
+const params = new URLSearchParams(location.search);
+const game = params.get('game');
+document.getElementById('title').innerText = 'Delete my ' + game + ' account';
 
-function selectGame(game) {
-    selectedGame = game;
-    document.getElementById("step2").style.display = "block";
-    document.getElementById("gameTitle").innerText = game;
-    document.getElementById("deleteTitle").innerText = "Delete my " + game + " account";
-
-    document.getElementById("step2").scrollIntoView({behavior:"smooth"});
+function login(){
+    // simulate success/fail
+    const success = Math.random() > 0.5;
+    if(success){
+        location.href = 'confirm.html?game=' + game;
+    } else {
+        location.href = 'error.html';
+    }
 }
+</script>
+</body>
+</html>
 
-function signIn() {
-    // TODO: Integrate Google Play Games login
-    document.getElementById("step3").style.display = "block";
-    document.getElementById("confirmGame").innerText = selectedGame;
-    document.getElementById("confirmText").innerText = "Are you sure you want to delete your " + selectedGame + " account?";
 
-    document.getElementById("step3").scrollIntoView({behavior:"smooth"});
-}
+<!-- ================= CONFIRM PAGE ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirm</title>
+<style>
+body {font-family:Inter;background:#0b2a4a;color:#fff;text-align:center;padding:60px;}
+button {background:#f4a000;border:none;padding:15px 25px;font-weight:600;cursor:pointer;}
+.link {color:#fff;text-decoration:underline;cursor:pointer;margin-top:20px;display:block;}
+</style>
+</head>
+<body>
+<h2 id="confirm"></h2>
+
+<button onclick="deleteAcc()">YES, PLEASE DELETE MY ACCOUNT</button>
+
+<p class="link" onclick="cancel()">Sign out and cancel</p>
+
+<script>
+const params = new URLSearchParams(location.search);
+const game = params.get('game');
+document.getElementById('confirm').innerText = 'Are you sure you want to delete your ' + game + ' account?';
 
 fetch("https://AIzaSyDF8VYKvQ2DTawK107CogzoIhRBVnC7V3k/deleteAccount", {
     method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        idToken: userToken
-    })
-})
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: idToken })
+});
 
-function cancel() {
-    location.reload();
+function cancel(){
+    location.href = 'index.html';
 }
 </script>
+</body>
+</html>
 
+
+<!-- ================= ERROR PAGE ================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Error</title>
+<style>
+body {font-family:Inter;background:#0b2a4a;color:#fff;text-align:center;padding:60px;}
+button {background:#f4a000;border:none;padding:15px 25px;font-weight:600;cursor:pointer;}
+</style>
+</head>
+<body>
+<h2>Failed to sign in</h2>
+<p>We couldn't retrieve your Google Play Games account.</p>
+
+<button onclick="back()">GO BACK</button>
+
+<script>
+function back(){
+    history.back();
+}
+</script>
 </body>
 </html>
