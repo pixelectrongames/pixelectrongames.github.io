@@ -74,45 +74,6 @@
             letter-spacing: 1px;
         }
 
-        /* --- SCREENSHOT SLIDER (PLAY STORE STYLE) --- */
-        .screenshot-slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding: 10px 0 20px 0;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none; /* Sembunyikan scrollbar di Firefox */
-            -ms-overflow-style: none;  /* Sembunyikan scrollbar di IE/Edge */
-        }
-
-        /* Sembunyikan scrollbar di Chrome/Safari */
-        .screenshot-slider::-webkit-scrollbar {
-            display: none;
-        }
-
-        .screenshot-item {
-            flex: 0 0 240px; /* Lebar screenshot */
-            scroll-snap-align: start;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
-        }
-
-        .screenshot-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* Responsive slider untuk layar lebih besar */
-        @media (min-width: 768px) {
-            .screenshot-item {
-                flex: 0 0 300px;
-            }
-        }
-
-        /* --- GAMES GRID & DETAILS --- */
         .games-grid {
             display: flex;
             gap: 20px;
@@ -124,12 +85,11 @@
             width: 300px;
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.2s, opacity 0.3s;
+            transition: opacity 0.3s;
         }
 
         .game-card:hover {
-            opacity: 0.9;
-            transform: translateY(-5px);
+            opacity: 0.8;
         }
 
         .game-card img {
@@ -140,41 +100,36 @@
         .game-details {
             display: none;
             margin-top: 25px;
-            background: #ffffff;
+            background: #fdfdfd;
             padding: 20px 0;
         }
 
-        .game-description {
-            margin-top: 25px;
-        }
-
-        .game-description h4 {
-            margin: 20px 0 10px 0;
-            color: #111;
-        }
-
-        .game-description p {
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
             margin-bottom: 15px;
-            color: #444;
+            background: #eee;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         .playstore-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 30px;
+            display: inline-block;
+            margin-top: 15px;
             color: white;
             background: #000;
-            padding: 14px 28px;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-weight: 600;
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-
-        .playstore-btn:hover {
-            background: #333;
+            font-size: 0.9rem;
         }
 
         .social-links {
@@ -191,6 +146,95 @@
         .social-links a:hover {
             transform: translateY(-3px);
             color: var(--link-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5vh auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            border-radius: 4px;
+        }
+        .modal-content h3{
+            margin-bottom:20px;
+        }
+        
+        .modal-content h4{
+            margin-top:25px;
+            margin-bottom:10px;
+        }
+        
+        .modal-content p{
+            margin-bottom:12px;
+        }
+        
+        .modal-content ul{
+            margin-left:20px;
+            margin-bottom:12px;
+        }
+        
+        .modal-content li{
+            margin-bottom:6px;
+        }
+        
+        .modal-content{
+            line-height:1.7;
+        }
+
+        .close-btn {
+            position: sticky;
+            float: right;
+            bottom: 0;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        footer {
+            border-top: 1px solid #f0f0f0;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            width: var(--container-width);
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: var(--link-color);
+            text-decoration: none;
+            margin-right: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-light);
         }
     </style>
 </head>
@@ -214,53 +258,30 @@
         <div class="games-grid">
             <div class="game-wrapper" style="width: 100%;">
                 <div class="game-card" onclick="toggleDetails('game1')">
-                    <img src="DinoEternalPoster.png" alt="Dino Eternal">
+                    <img src="DinoEternalPoster.png" alt="Game 1 Thumbnail">
                 </div>
-                
                 <div id="game1" class="game-details">
-                    
-                    <div class="screenshot-slider">
-                        <div class="screenshot-item"><img src="screen1.png" alt="Screenshot 1"></div>
-                        <div class="screenshot-item"><img src="screen2.png" alt="Screenshot 2"></div>
-                        <div class="screenshot-item"><img src="screen3.png" alt="Screenshot 3"></div>
-                        <div class="screenshot-item"><img src="screen4.png" alt="Screenshot 4"></div>
-                        <div class="screenshot-item"><img src="screen5.png" alt="Screenshot 5"></div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/notavailableyet" frameborder="0" allowfullscreen></iframe>
                     </div>
-
-                    <div class="game-description">
-                        <p><strong>A bond that even death couldn't break.</strong></p>
-                        <p>Dino Eternal is a haunting, 2D pixel-art survival game with a story that hits hard. The world has already ended. A massive meteor wiped everything out, but your journey is just beginning.</p>
-                        <p>You play as the spirit of a young dinosaur who refuses to move on. Even in the afterlife, your only goal is to protect your mother’s resting place from the demons trying to reach her. It’s a tragic, beautiful stand in a world that has gone quiet.</p>
-                        
-                        <h4>How to play</h4>
-                        <p><strong>Defend her at all costs:</strong> You are the final line of defense. Use your spirit powers to fight back against waves of demons.</p>
-                        <p><strong>You aren't alone:</strong> You can call on the spirits of other fallen dinosaurs to help you. Each one has a specific role, so you’ll need to think fast and place them strategically.</p>
-                        <p><strong>The waves never stop:</strong> As time goes on, the demons get faster and more aggressive. It’s all about how long you can hold out.</p>
-                        <p><strong>Classic retro vibes:</strong> The game features beautiful, hand-crafted pixel art that captures the lonely but peaceful atmosphere.</p>
-                        
-                        <h4>The goal is simple</h4>
-                        <p>There is no "winning" in a world that’s already gone. This is about loyalty, courage, and how long you can protect the person who meant everything to you.</p>
-                        <p><em>How many nights can you keep the shadows away?</em></p>
-                    </div>
-
-                    <a href="https://play.google.com/store/apps/details?id=com.pixelectrongames.eternaldino" class="playstore-btn">
-                        <i class="fab fa-google-play"></i> Get it on Google Play
-                    </a>
+                    <p>A 2D pixel art platformer where a dinosaur defends its mother from enemies.</p>
+                    <a href="Coming Soon" class="playstore-btn"><i class="fab fa-google-play"></i> Get it on Google Play</a>
                 </div>
             </div>
-        </div>
+            </div>
     </section>
 
     <section>
         <h2>CONTACT</h2>
         <div class="social-links">
-            <a href="mailto:pixelectrongames@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="mailto:pixelectrongames@email.com"><i class="fas fa-envelope"></i></a>
             <a href="https://www.instagram.com/pixelectrongames/"><i class="fab fa-instagram"></i></a>
             <a href="https://x.com/pixelectrondev"><i class="fab fa-x-twitter"></i></a>
             <a href="https://discord.gg/UyyqaxF6JU"><i class="fab fa-discord"></i></a>
         </div>
     </section>
 </div>
+
 <footer>
     <div class="footer-content">
         <div class="footer-links">
