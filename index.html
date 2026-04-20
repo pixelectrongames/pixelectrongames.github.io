@@ -246,19 +246,19 @@
         }
         
         .screenshot-slider img {
-            height: 300px;
+            width: 70vw;
+            max-width: 220px;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
             border-radius: 6px;
             flex-shrink: 0;
-            scroll-snap-align: start;
-            cursor: pointer;
-            transition: transform 0.2s;
+            scroll-snap-align: center;
         }
         
         .screenshot-slider img:hover {
             transform: scale(1.03);
         }
         
-        /* Hide scrollbar (optional, biar clean seperti Play Store) */
         .screenshot-slider::-webkit-scrollbar {
             display: none;
         }
@@ -268,7 +268,6 @@
             scrollbar-width: none;
         }
         
-        /* Description styling */
         .game-description {
             margin-top: 20px;
         }
@@ -285,6 +284,14 @@
 
         .screenshot-slider {
             scroll-behavior: smooth;
+        }
+
+        .screenshot-slider {
+            cursor: grab;
+        }
+        
+        .screenshot-slider:active {
+            cursor: grabbing;
         }
     </style>
 </head>
@@ -584,6 +591,35 @@
 </div>
 
 <script>
+    const slider = document.querySelector('.screenshot-slider');
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+    
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+    });
+    
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+    });
+    
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2; // speed
+        slider.scrollLeft = scrollLeft - walk;
+    });
+    
     function toggleDetails(id) {
         const details = document.getElementById(id);
         details.style.display = (details.style.display === "block") ? "none" : "block";
