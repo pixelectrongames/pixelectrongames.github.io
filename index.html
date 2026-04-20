@@ -254,13 +254,14 @@
             flex-shrink: 0;
             scroll-snap-align: center;
             transition: transform 0.2s;
+            user-select: none;
+            pointer-events: none;
         }
         
         .screenshot-slider img:hover {
             transform: scale(1.03);
         }
         
-        /* Description */
         .game-description {
             margin-top: 20px;
         }
@@ -275,7 +276,6 @@
             margin-bottom: 10px;
         }
         
-        /* DOT INDICATOR */
         .slider-dots {
             display: flex;
             justify-content: center;
@@ -620,6 +620,33 @@
     
         dots.forEach(dot => dot.classList.remove('active'));
         dots[closestIndex].classList.add('active');
+    });
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+    
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+    });
+    
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+    });
+    
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+    
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        slider.scrollLeft = scrollLeft - walk;
     });
     
     function toggleDetails(id) {
